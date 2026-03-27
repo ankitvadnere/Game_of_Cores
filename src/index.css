@@ -1,0 +1,73 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black:          #00000a;
+  --gold:           #c9a84c;
+  --gold-bright:    #f0c040;
+  --gold-dim:       #8a7a5a;
+  --white-warm:     #f0e8d0;
+  --ember:          #e84545;
+  --house-core:     #c9a84c;
+  --house-volatile: #a78bfa;
+  --house-render:   #34d399;
+  --house-eternal:  #94a3b8;
+  --house-transit:  #38bdf8;
+  --font-title:     'Cinzel Decorative', serif;
+  --font-body:      'Cormorant Garamond', serif;
+  --font-mono:      'Share Tech Mono', monospace;
+}
+
+html {
+  background: var(--black);
+  color: var(--white-warm);
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 1; }
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.5); }
+}
+
+@keyframes corePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+@keyframes loadingBar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+@keyframes scanline {
+  from { top: 0%; }
+  to   { top: 100%; }
+}
