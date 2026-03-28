@@ -1,2 +1,7 @@
-# Game_of_Cores
-This is the final version of my website Game of Cores
+# Game of Cores
+Game of Cores is an immersive, scroll-driven storytelling website that transforms the invisible world inside a computer into a living medieval kingdom — where every component has a throne, a purpose, and a story.
+The concept began with a single question: what if a motherboard was a map? Circuit traces became golden roads. Chips became castles. Ports became kingdom gates. From that analogy, an entire narrative universe was built — the Kingdom of Siliconium, ruled by five great houses: House Core (CPU), House Volatile (RAM), House Render (GPU), House Eternal (Storage), and House Transit (Network).
+The experience follows a single frame of a video game — a warrior pressing the ATTACK button — as it travels through every house in real time. Users don't just read about how computers work. They live it. They assign tasks to CPU cores, manage RAM slots under pressure, balance GPU render budgets against frame time, search storage vaults for enemy health records, and dispatch network packets across the world.
+Design process: The visual language blends medieval serif typography with monospace terminal aesthetics — a deliberate tension between ancient and digital. Each house has its own color identity: gold for CPU, violet for RAM, green for GPU, slate for Storage, and sky blue for Network. Scroll-triggered animations, typewriter reveals, and GSAP-powered transitions create a cinematic pace that rewards exploration.
+Built entirely with React, GSAP, and Framer Motion — no backend, no database. Every interaction runs in the browser, making the experience instantly accessible from any device.
+Five houses. One kingdom. Sixteen milliseconds.
