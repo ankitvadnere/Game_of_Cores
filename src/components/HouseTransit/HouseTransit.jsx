@@ -1672,8 +1672,8 @@ const sn = {
     flexShrink: 0,
   },
   circle: {
-    width: 200,     
-    height: 150,    
+    width: 'clamp(120px, 15vw, 400px)',     
+    height: 'clamp(70px, 20vh, 200px)',    
     border: '1.5px solid',
     display: 'flex',
     alignItems: 'center',
@@ -1752,7 +1752,7 @@ const vs = {
   },
   title: {
     fontFamily: 'var(--font-title)',
-    fontSize: 'clamp(36px, 7vw, 80px)',
+    fontSize: 'clamp(20px, 7vw, 80px)',
     fontWeight: 900,
     color: '#c9a84c',
     margin: 0,
@@ -1825,7 +1825,7 @@ const vs = {
   },
   houseRole: {
     fontFamily: 'var(--font-mono)',
-    fontSize: 'clamp(7px, 0.8vw, 10px)',
+    fontSize: 'clamp(8px, 0.8vw, 10px)',
     color: 'rgba(240,232,208,0.3)',
     marginTop: -3,
     textAlign: 'center',

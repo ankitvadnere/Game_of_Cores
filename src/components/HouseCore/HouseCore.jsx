@@ -225,97 +225,83 @@ function CircuitBackground() {
 // ─── SIGNAL TRAVEL ───────────────────────────────────────────
 
 function SignalTravel({ steps, currentStep, onTypewriterDone }) {
-  const fullText = `The player is playing a sword combat game and has pressed the button. The signal of that attack button is going towards the House Core (CPU)...`
-
+  const fullText = `The player is playing a sword combat game and has pressed the ATTACK button. The signal of that attack button is going towards the House Core (CPU)...`
   const [typingDone, setTypingDone] = useState(false)
 
-  const displayed = useTypewriter(fullText, 40, () => {
+  const displayed = useTypewriter(fullText, 28, () => {
     setTypingDone(true)
-    onTypewriterDone()   // fires after typing finishes
+    onTypewriterDone()
   })
+
+  const parts = displayed.split('ATTACK')
+
   return (
     <div style={s.signalWrap}>
-      <p style={s.signalTitle}>
-        Incoming Command Detected
-      </p>
-      <p style={s.snub}>
-        {displayed}
-        {!typingDone && (
-          <span style={{ animation: 'pulse 0.8s ease-in-out infinite', color: '#c9a84c' }}>
-            |
+      <p style={s.signalTitle}>Signal Received from House Core</p>
+      <p style={s.signalSub}>
+        {parts.map((part, i) => (
+          <span key={i}>
+            {part}
+            {i < parts.length - 1 && (
+              <span style={{ color: '#c9a84c', fontStyle: 'normal', fontWeight: 600 }}>
+                ATTACK
+              </span>
+            )}
           </span>
+        ))}
+        {!typingDone && (
+          <span style={{ animation: 'pulse 0.8s ease-in-out infinite', color: '#c9a84c' }}>|</span>
         )}
       </p>
 
-      {/* Progress bar track */}
-      <div style={sn.track}>
-        {steps.map((step, i) => {
+      {typingDone && (
+        <div style={sn.track}>
+          {steps.map((step, i) => {
             const isCompleted = i < currentStep
-            const isActive    = i === currentStep - 1
-
             return (
-            <div key={step} style={{
-                display: 'flex',
-                alignItems: 'center',
-                flex: i < steps.length - 1 ? 1 : 0,  // last node doesn't flex
-            }}>
-
-                {/* Node */}
+              <div key={step.label} style={{
+                display: 'flex', alignItems: 'center',
+                flex: i < steps.length - 1 ? 1 : 0,
+              }}>
                 <div style={sn.nodeCol}>
-                <div style={{
-                  ...sn.circle,
-                  borderColor: isCompleted ? '#c9a84c' : 'rgba(201,168,76,0.2)',
-                  boxShadow:   isActive
-                    ? '0 0 20px rgba(201,168,76,0.6)'
-                    : isCompleted
-                    ? '0 0 12px rgba(201,168,76,0.3)'
-                    : 'none',
-                  overflow: 'hidden',
-                  transition: 'all 0.5s ease',
-                }}>
-                  <img
-                    src={step.img}
-                    alt={step.label}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      opacity: isCompleted ? 1 : 0.3,
-                      transition: 'opacity 0.5s ease',
-                      filter: isCompleted
-                        ? 'none'
-                        : 'grayscale(100%)',
-                    }}
-                  />
-                </div>
-                <p style={{
+                  <div style={{
+                    ...sn.circle,
+                    borderColor: isCompleted ? '#c9a84c' : 'rgba(201,168,76,0.2)',
+                    boxShadow:   isCompleted ? '0 0 16px rgba(201,168,76,0.6)' : 'none',
+                    overflow: 'hidden',
+                    transition: 'all 0.5s ease',
+                  }}>
+                    <img src={step.img} alt={step.label} style={{
+                      width: '100%', height: '100%', objectFit: 'cover',
+                      opacity: isCompleted ? 1 : 0.25,
+                      filter: isCompleted ? 'none' : 'grayscale(100%)',
+                      transition: 'all 0.5s ease',
+                    }} />
+                  </div>
+                  <p style={{
                     ...sn.stepLabel,
                     color: isCompleted ? '#c9a84c' : 'rgba(240,232,208,0.3)',
                     transition: 'color 0.5s ease',
-                }}>
+                  }}>
                     {step.label}
-                </p>
+                  </p>
                 </div>
-
-                {/* Connector AFTER node, only if not last */}
                 {i < steps.length - 1 && (
-                <div style={{
-                    ...sn.connectorWrapper,
-                    flex: 1,
-                }}>
+                  <div style={{ ...sn.connector, flex: 1 }}>
                     <div style={sn.connectorBg} />
                     <div style={{
-                    ...sn.connectorFill,
-                    width: i < currentStep - 1 ? '100%' : '0%',
-                    transition: 'width 2s ease',
+                      ...sn.connectorFill,
+                      width: i < currentStep - 1 ? '100%' : '0%',
+                      background: 'linear-gradient(90deg, #c9a84c, #e8cd81)',
+                      transition: 'width 2s ease',
                     }} />
-                </div>
+                  </div>
                 )}
-
-            </div>
+              </div>
             )
-        })}
+          })}
         </div>
+      )}
     </div>
   )
 }
@@ -768,37 +754,30 @@ const s = {
   //Signal
   signalWrap: {
     display: 'flex',
-    flexWrap: 'wrap',
-    width: '100vw',
-    height: '30vh',
-    justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
-    paddingRight: '10vw',
-    marginTop: '10vh'
+    gap: 20,
+    zIndex: 1,
+    padding: 'clamp(16px, 4vh, 40px) 0',
+    marginTop: '5vh'
   },
-
   signalTitle: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    width: '100%',
-    height: '20%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: '2rem',
     fontFamily: 'var(--font-title)',
-    color: 'rgb(255, 183, 1)',
+    fontSize: '2rem',
+    color: '#c9a84c',
+    margin: 0,
+    textAlign: 'center',
+    letterSpacing: '0.05em',
   },
-
-  snub: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    width: '100%',
-    height: '20%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  signalSub: {
+    fontFamily: 'var(--font-body)',
     fontSize: '1.2rem',
-    marginTop: 5,
-    color: 'rgba(240,232,208,0.6)'
+    color: 'rgba(240,232,208,0.6)',
+    fontStyle: 'italic',
+    textAlign: 'center',
+    margin: 0,
+    maxWidth: 900,
+    lineHeight: 1.7,
   },
 
   // Brief
@@ -1205,59 +1184,21 @@ const sn = {
     paddingRight: '2vw',
     marginTop: 30
   },
-  stepWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    flex: 1,
-  },
-  connectorWrapper: {
-    flex: 1,
-    position: 'relative',
-    height: 2,
-    marginBottom: 15,
-  },
-  connectorBg: {
-    position: 'absolute',
-    inset: 0,
-    background: 'rgba(201,168,76,0.12)',
-    borderRadius: 1,
-  },
-  connectorFill: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: '100%',
-    background: 'linear-gradient(90deg, #c9a84c, #f0c040)',
-    borderRadius: 1,
-    boxShadow: '0 0 8px rgba(201,168,76,0.5)',
-  },
   nodeCol: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    gap: 10,
     flexShrink: 0,
   },
   circle: {
-    width: 200,     
-    height: 150,    
+    width: 'clamp(120px, 15vw, 400px)',     
+    height: 'clamp(70px, 20vh, 200px)',    
     border: '1.5px solid',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    flexShrink: 0,
     overflow: 'hidden',
-  },
-  checkmark: {
-    color: '#c9a84c',
-    fontSize: 16,
-    fontWeight: 700,
-  },
-  stepNum: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: 14,
-    color: 'rgba(201,168,76,0.3)',
-    fontWeight: 700,
   },
   stepLabel: {
     fontFamily: 'var(--font-mono)',
@@ -1268,5 +1209,24 @@ const sn = {
     textAlign: 'center',
     maxWidth: 150,
     lineHeight: 1.4,
+  },
+  connector: {
+    position: 'relative',
+    height: 2,
+    marginBottom: 38,
+  },
+  connectorBg: {
+    position: 'absolute',
+    inset: 0,
+    background: 'rgba(167,139,250,0.12)',
+    borderRadius: 1,
+  },
+  connectorFill: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    borderRadius: 1,
+    boxShadow: '0 0 8px rgba(186, 181, 51, 0.5)',
   },
 }

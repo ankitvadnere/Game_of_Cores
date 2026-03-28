@@ -1386,8 +1386,8 @@ const sn = {
     flexShrink: 0,
   },
   circle: {
-    width: 200,     
-    height: 150,    
+    width: 'clamp(120px, 15vw, 400px)',     
+    height: 'clamp(70px, 20vh, 200px)',   
     border: '1.5px solid',
     display: 'flex',
     alignItems: 'center',
