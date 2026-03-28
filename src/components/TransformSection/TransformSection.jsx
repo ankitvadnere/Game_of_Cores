@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useBreakpoint } from '../../hooks/useBreakpoint'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -35,6 +36,8 @@ export default function TransformSection({ onTransformed }) {
   const [btnVisible,  setBtnVisible]    = useState(false)
   const [currentImage, setCurrentImage] = useState('motherboard')
   const [textContent,   setTextContent]   = useState(MOTHERBOARD_TEXT)
+  const { isMobile, isTablet } = useBreakpoint()
+  const isSmallScreen = isMobile || isTablet
 
   // ── SCROLL TRIGGER — one scroll snap fires the whole zoom ──
   useEffect(() => {
@@ -131,7 +134,10 @@ export default function TransformSection({ onTransformed }) {
       <div style={styles.sticky}>
 
         {/* Flash */}
-        <div ref={flashRef} style={styles.flash} />
+        <div ref={flashRef} style={{...styles.flash,
+          height: isSmallScreen ? '50%' : '100%',
+          marginLeft: isSmallScreen ? '3%' : '-15vw'
+        }} />
 
         {/* Vignette */}
         <div style={styles.vignette} />
@@ -144,10 +150,18 @@ export default function TransformSection({ onTransformed }) {
         </p>
 
         {/* Main layout — image left, text right */}
-        <div style={styles.mainLayout}>
+        <div style={{
+          ...styles.mainLayout,
+          flexDirection: isSmallScreen ? 'column' : 'row'
+        }}>
 
           {/* Left — Image */}
-          <div style={styles.imageColumn}>
+          <div style={{
+            ...styles.imageColumn,
+            height: isSmallScreen ? '40%' : '100%',
+            width: isSmallScreen ? '85%' : '50%',
+            marginTop: isSmallScreen ? '-20%' : '0'
+          }}>
             <div ref={imageWrapRef} style={styles.imageWrap}>
               <img
                 src={
@@ -170,7 +184,12 @@ export default function TransformSection({ onTransformed }) {
           </div>
 
           {/* Right — Text */}
-          <div style={styles.textColumn}>
+          <div style={{
+            ...styles.textColumn,
+            height: isSmallScreen ? '40%' : '100%',
+            width: isSmallScreen ? '85%' : '40%',
+            marginTop: isSmallScreen ? '10%' : '0'
+          }}>
             <div ref={textRef} style={{ opacity: 0 }}>
 
               {/* Title */}
@@ -182,7 +201,9 @@ export default function TransformSection({ onTransformed }) {
               </h2>
 
               {/* Paragraph */}
-              <p style={styles.textPara}>
+              <p style={{...styles.textPara,
+                marginTop: isSmallScreen ? '-10%' : '0'
+              }}>
                 {textContent.para}
               </p>
 
@@ -190,7 +211,9 @@ export default function TransformSection({ onTransformed }) {
               {btnVisible && !transformed && (
                 <div
                   ref={buttonRef}
-                  style={styles.btnWrapper}
+                  style={{...styles.btnWrapper,
+                    marginTop: isSmallScreen ? '-20%' : '0'
+                  }}
                 >
                   <button
                     onClick={handleTransform}
@@ -281,12 +304,13 @@ const styles = {
     height: '5vh',
     transform: 'translateX(-50%)',
     fontFamily: 'var(--font-mono)',
-    fontSize: 'clamp(20px, 1.4vw, 11px)',
+    fontSize: 'clamp(10px, 1.4vw, 24px)',
     letterSpacing: '0.3em',
     color: 'rgba(201, 168, 76, 0.88)',
     textTransform: 'uppercase',
     whiteSpace: 'nowrap',
     zIndex: 10,
+    margin: 'auto'
   },
   mainLayout: {
     position: 'relative',
@@ -295,8 +319,6 @@ const styles = {
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    width: '100vw',
-    height: '80vh'
   },
   imageColumn: {
     display: 'flex',
@@ -350,7 +372,7 @@ const styles = {
     height: '26vh',
     width: '100%',
     fontFamily: 'var(--font-body)',
-    fontSize: 'clamp(20px, 1.4vw, 17px)',
+    fontSize: 'clamp(14px, 1.4vw, 20px)',
     lineHeight: 1.9,
     color: 'rgba(240,232,208,0.65)',
     fontStyle: 'italic',
@@ -400,7 +422,7 @@ const styles = {
     height: '4vh',
     justifyContent: 'center',
     fontFamily: 'var(--font-mono)',
-    fontSize: 15,
+    fontSize: 'clamp(10px, 1.2vw, 12px)',
     letterSpacing: '0.22em',
     color: 'rgba(201, 168, 76, 0.91)',
     textTransform: 'uppercase',

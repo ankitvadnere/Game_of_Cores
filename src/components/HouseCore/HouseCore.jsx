@@ -57,7 +57,7 @@ export default function HouseCore({ onComplete }) {
   useEffect(() => {
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: 'top 10%',
+      start: 'top 20%',
       once: true,
       onEnter: () => {
         // Animate section in

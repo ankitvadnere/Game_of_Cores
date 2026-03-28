@@ -17,6 +17,9 @@ export default function TitleSection() {
 const styles = {
   wrapper: {
     position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100vw',
     height: '100vh',
     background: '#00000a',
@@ -26,7 +29,8 @@ const styles = {
     position: 'absolute',
     inset: 0,
     width: '100%',
-    height: '100%',
+    height: 'auto',
     objectFit: 'cover',    // fills the screen without stretching
+    margin: 'auto'
   },
 }

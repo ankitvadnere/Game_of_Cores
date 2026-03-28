@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useBreakpoint } from '../../hooks/useBreakpoint'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -51,6 +52,8 @@ export default function HouseSection() {
   const sectionRef = useRef()
   const titleRef   = useRef()
   const cardsRef   = useRef([])
+  const { isMobile, isTablet } = useBreakpoint()
+  const isSmallScreen = isMobile || isTablet
 
   useEffect(() => {
 
@@ -114,7 +117,9 @@ export default function HouseSection() {
         ))}
       </div>
 
-      <div style={styles.storyDesc}>
+      <div style={{...styles.storyDesc,
+        width: isSmallScreen ? '80vw' : '70vw'
+      }}>
         <p>“Welcome to Siliconium. A command has just been issued in the heat of an online multiplayer battle. From this moment on, you’ll trace its entire journey — from CPU execution to frame rendering, and finally, its transmission across the network to your opponent.Scroll down to begin the simulation.”</p>
       </div>
 
@@ -219,7 +224,7 @@ const styles = {
   },
   eyebrow: {
     fontFamily: 'var(--font-mono)',
-    fontSize: 'clamp(15px, 1vw, 11px)',
+    fontSize: 'clamp(10px, 1vw, 15px)',
     letterSpacing: '0.35em',
     color: 'rgba(201, 168, 76, 0.66)',
     textTransform: 'uppercase',
@@ -227,7 +232,7 @@ const styles = {
   },
   title: {
     fontFamily: 'var(--font-title)',
-    fontSize: 'clamp(28px, 4vw, 52px)',
+    fontSize: 'clamp(12px, 4vw, 52px)',
     fontWeight: 700,
     color: '#f7d262',
     margin: 0,
@@ -320,7 +325,7 @@ const styles = {
     display: 'flex',
     width: '70vw',
     height: 'auto',
-    fontSize: '1.2rem',
+    fontSize: 'clamp(16px, 2vw, 24px)',
     color: 'rgba(201, 168, 76, 0.66)',
     fontFamily: 'var(--font-body)',
     fontWeight: '200',
